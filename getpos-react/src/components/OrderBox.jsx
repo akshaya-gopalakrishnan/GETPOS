@@ -130,6 +130,7 @@ const OrderBox = ({
           {showMoveToCart && <img src={IconRightArrow} alt="Move to Cart" />}
           {showPayNow && <a href="#"> Pay Now</a>}
           {print && <PrintInvoice order={order} />}
+          {/* { kitchenPrint &&<Button onClick={Preview}>Preview</Button>} */}
         </span>
       </p>
      
@@ -148,7 +149,7 @@ const OrderBox = ({
 
       <span className="amountAndDate">
         <span className="light-text">
-          {themeSettings?.currency_symbol || "$"}{" "}
+          {themeSettings?.currency_symbol || "AED"}{" "}
           {order.grand_total
             ? (order.grand_total - order.loyalty_amount).toFixed(2)
             : "0.00"}{" "}
@@ -160,15 +161,21 @@ const OrderBox = ({
           {order.contact_mobile || order.mobile_no}{" "}
           <span className="light-text">| {order.contact_name}</span>
         </span>
-        <span>
+        <span >
+          {showMoveToCart && <img src={IconRightArrow} alt="Move to Cart" />}
+          {showPayNow && <a href="#"> Pay Now</a>}
+          <div className="return-btns"  style={{ gap: "10px" }}>
           {showDelete && (
             <img src={IconDelete} alt="Delete" onClick={DeleteKitchenOrder} />
           )}
-          {showMoveToCart && <img src={IconRightArrow} alt="Move to Cart" />}
-          {showPayNow && <a href="#"> Pay Now</a>}
+
             {!kitchenPrint && <Button onClick={()=> window.open(`${window.location.origin}/printview?doctype=Sales%20Order&&trigger_print=1&&name=${order.name}&format=Customer%20Print&no_letterhead=0`)}>Print</Button>}
 
             { kitchenPrint &&<Button onClick={()=> window.open(`${window.location.origin}/printview?doctype=Sales%20Order&&trigger_print=1&&name=${order.name}&format=Kitchen%20Print&no_letterhead=0`)}>Kitchen Print</Button>}
+          </div>
+
+            {/* { kitchenPrint &&<Button onClick={Preview}>Preview</Button>} */}
+
         </span>
       </p>
      

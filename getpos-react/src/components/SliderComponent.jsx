@@ -1,7 +1,7 @@
 import { Button } from 'antd';
 import React, { useEffect, useState } from 'react';
-
-const Slider = ({setContent}) => {
+import {getContents} from "../modules/LandingPage";
+const Slider = ({setContent, item}) => {
   // Initial sliders state with unique IDs and default values
   const [sliders, setSliders] = useState({});
 
@@ -12,9 +12,22 @@ const Slider = ({setContent}) => {
       [sliderId]: { ...prevSliders[sliderId], value: parseInt(value, 10) }, // Ensure value is an integer
     }));
   };
+  const setContents = async () =>{
+    const response = await getContents(item)
+    if (response.data){
+      response.data["items"].forEach(element => {
+        if (element["item_name"]){
+          addSlider(element["item_name"])
+        }
+      });
+    }
+  }
   useEffect(()=>{
     setContent(sliders)
   }, [sliders])
+  useEffect(()=>{
+    setContents()
+  },[])
   // Function to handle label change
   const handleLabelChange = (sliderId, newLabel) => {
     setSliders((prevSliders) => ({
@@ -24,8 +37,11 @@ const Slider = ({setContent}) => {
   };
 
   // Function to add a new slider
-  const addSlider = () => {
-    const newSliderId = `content${Object.keys(sliders).length + 1}`;
+  const addSlider = (id=null) => {
+    let newSliderId = `content${Object.keys(sliders).length + 1}`;
+    if (id && typeof id === 'string'){
+      newSliderId = id
+    }
     setSliders((prevSliders) => ({
       ...prevSliders,
       [newSliderId]: { value: 50, label: newSliderId }, // Default value and label

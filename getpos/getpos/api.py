@@ -2139,6 +2139,9 @@ def create_payment_entry(doc):
                         },
                         'name')
                 payment_entry.paid_to = account
+        if doc.mode_of_payment == 'Card':
+                payment_entry.reference_date = frappe.utils.today()
+                payment_entry.reference_no = "POS Card Payment"
         if doc.mode_of_payment == 'M-Pesa':
                 payment_entry.reference_no = doc.mpesa_no
                 payment_entry.reference_date = doc.posting_date

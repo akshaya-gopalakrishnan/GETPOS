@@ -427,3 +427,32 @@ export const deleteSalesOrder = async (salesOrderId) => {
     throw error;
   }
 };
+
+export const getContents = async (item) => {
+  try {
+    const response = await axiosInstance.get(`${APIs.getBom}?limit=1&filters=[["item", "=" , "${item}"], ["is_active", "=", 1]]`);  
+    console.log(response.data);
+    if (response?.data?.data.length > 0){
+      const name = response.data.data[0].name
+      if (name){
+        const res = await axiosInstance.get(`${APIs.getBom}/${name}`); 
+        return res.data
+      }
+    }
+    return {}
+  } catch (error) {
+    // Handle errors, such as network issues or server errors
+    throw error;
+  }
+};
+
+export const updateOrderStatus = async (order) =>{
+  try {
+    const response = await axiosInstance.put(`${APIs.SalesOrderURL}/${order["name"]}`, {"custom_order_status": order["value"]});  
+    console.log(response.data);
+    return
+  } catch (error) {
+    // Handle errors, such as network issues or server errors
+    throw error;
+  }
+}
