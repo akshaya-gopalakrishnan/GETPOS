@@ -132,7 +132,7 @@ const ProductPopup = ({ product, onClose, selectedCustomer }) => {
               </div>
             </div>
           </div>
-              <Slider setContent={setContent}/>
+              <Slider setContent={setContent} item={product.name}/>
 
           <div className="add-to-cart-attributes-container">
             {product.attributes.map((attribute, index) => (

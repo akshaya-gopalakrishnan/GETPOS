@@ -13,6 +13,7 @@ import OrderDetailModal from "../components/OrderDetailModal";
 import { CartContext } from "../common/CartContext";
 import Pagination from "../components/pagination";
 import { useNavigate } from "react-router-dom";
+import KitchenOrderModal from "../components/KitchenPreview";
 const { TabPane } = Tabs;
 const OrderPage = ({ hubManagerEmail }) => {
   const [searchTerm, setSearchTerm] = useState("");
@@ -21,6 +22,7 @@ const OrderPage = ({ hubManagerEmail }) => {
   const [loading, setLoading] = useState(true);
   const [selectedOrder, setSelectedOrder] = useState(null);
   const [isModalVisible, setIsModalVisible] = useState(false);
+  const [isKitchenModalVisible, setIsKitchenModalVisible] = useState(false);
   const [currentPageParked, setCurrentPageParked] = useState(1);
   const [currentKitchenOrder, setCurrentKitchenOrder] = useState(1);
   const [currentPageComplete, setCurrentPageComplete] = useState(1);
@@ -134,6 +136,15 @@ const OrderPage = ({ hubManagerEmail }) => {
     setIsModalVisible(false);
     setSelectedOrder(null);
   };
+
+  const handleKitchenOrderClick = (order) => {
+    setSelectedOrder(order);
+    setIsKitchenModalVisible(true);
+  };
+  const handleKitchenModalClose = () => {
+    setIsKitchenModalVisible(false);
+    setSelectedOrder(null);
+  };  
   const ProductAPICall = async () => {
     try {
       const data = await fetchCategoriesAndProducts();      
@@ -383,9 +394,10 @@ const OrderPage = ({ hubManagerEmail }) => {
                     showPayNow={false}
                     showDelete={true}
                     showMoveToCart={false}
-                    onClick={() => setKitchenToCart(order)}
+                    // onClick={() => setKitchenToCart(order)}
                     onDelete={() => handleDeleteOrder(order.name)}
                     indicator={false}
+                    onClick={handleKitchenOrderClick}
                     // print={true}
                     kitchenPrint={true}
                   />
@@ -468,6 +480,13 @@ const OrderPage = ({ hubManagerEmail }) => {
         onClose={handleModalClose}
         order={selectedOrder}
         onUpdateOrder={updateOrderStatus}
+      />
+      <KitchenOrderModal
+      visible={isKitchenModalVisible}
+      onClose={handleKitchenModalClose}
+      order={selectedOrder}
+      onUpdateOrder={updateOrderStatus}
+      onClickCart={() => setKitchenToCart(selectedOrder)}
       />
     </Layout>
   );

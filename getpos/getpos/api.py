@@ -1267,7 +1267,8 @@ def create_sales_order_kiosk():
         submit = order_list.get("submit", True)
         if order_list.get("name") and frappe.db.exists("Sales Order", order_list.get("name")):
               sales_order = frappe.get_doc("Sales Order", order_list.get("name"))
-              sales_order.transaction_date = sales_order.transaction_time = ""
+              sales_order.transaction_date = frappe.utils.nowdate()
+              sales_order.transaction_time = frappe.utils.nowtime()
               sales_order.payment_schedule = []
         else:
               sales_order = frappe.new_doc("Sales Order")
@@ -1341,6 +1342,9 @@ def create_sales_order_kiosk():
                sales_order.outstanding_amount=sales_order.grand_total-sales_order.loyalty_amount
 
         if submit:
+                sales_order.transaction_date = frappe.utils.nowdate()
+                sales_order.transaction_time = frappe.utils.nowtime()
+                sales_order.payment_schedule = []
                 sales_order.submit()               
         # if order_list.get("gift_card_code"):
         #         frappe.db.sql("""
@@ -2139,6 +2143,9 @@ def create_payment_entry(doc):
                         },
                         'name')
                 payment_entry.paid_to = account
+        if doc.mode_of_payment == 'Card':
+                payment_entry.reference_date = frappe.utils.today()
+                payment_entry.reference_no = "POS Card Payment"
         if doc.mode_of_payment == 'M-Pesa':
                 payment_entry.reference_no = doc.mpesa_no
                 payment_entry.reference_date = doc.posting_date

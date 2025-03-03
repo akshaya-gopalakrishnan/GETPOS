@@ -1177,6 +1177,7 @@ const Cart = ({ fetchData, onReservationClick }) => {
         discount_amount: discountAmount,
         gift_card_code: giftCard,
         submit: false,
+        name: localStorage.getItem("orderId") || null,
       };
   
       try {
@@ -1220,6 +1221,7 @@ const Cart = ({ fetchData, onReservationClick }) => {
           setIsPromoCodeValid(false);
           setStoredPassword("");
           setSelectedPaymentMethod("");
+          handleQuickCustomer();
         } else {
           setCouponCodes("");
           setCouponDiscount("");
@@ -1325,12 +1327,6 @@ const Cart = ({ fetchData, onReservationClick }) => {
                   disabled={cartItems.length === 0}
                 >
                   Park
-                </button>
-                <button
-                  onClick={handlePlaceKitchenOrder}
-                  disabled={cartItems.length === 0}
-                >
-                  Kitchen
                 </button>
               </div>
             </div>
@@ -1657,12 +1653,22 @@ const Cart = ({ fetchData, onReservationClick }) => {
           <Button
             className="cash-card-btn"
             type={selectedPaymentMethod === "Card" ? "primary" : "default"}
-            onClick={() => handleSelectPaymentMethod("Card")}
+            onClick={() => {
+              handleSelectPaymentMethod("Card")
+              setIsPopupVisible(true)
+            }
+            }
           >
             <img src={IconCard} alt="" />
             Card
           </Button>
-        
+          <Button
+                  onClick={handlePlaceKitchenOrder}
+                  disabled={cartItems.length === 0}
+                  type={"primary"}
+                >
+                  Kitchen
+            </Button>
         </div>
       </div>
       {authModalVisible && (

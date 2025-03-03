@@ -22,7 +22,11 @@ const Header = ({ onSearch }) => {
 
   const costCenter = localStorage.getItem("costCenter");
   const Openshift = localStorage.getItem("openingShiftResponse");
-
+  const openingShiftResponse = JSON.parse(
+    localStorage.getItem("openingShiftResponse")
+  );
+  const createdDate = openingShiftResponse?.message?.pos_opening_shift.creation || ''
+  const formattedDate = createdDate ? createdDate.slice(0, 19) : '';
   const handleSearch = (e) => {
     setSearchQuery(e.target.value);
     onSearch(e.target.value);
@@ -36,11 +40,14 @@ const Header = ({ onSearch }) => {
     <header className="header">
       <div className="header-logo">
         {user && costCenter && Openshift ? (
+          <div style={{display: "flex", alignItems: "flex-end", gap: 2}}>
           <NavLink to="/main">
-            <img src={Logo} alt="Logo" />
+            <img src="https://mammutea.cloudnativeits.com/files/IBS%20LOGO-01-01e17f07.png" alt="Logo" />
           </NavLink>
+          <p style={{color: "white"}}>Created On: {formattedDate}</p> &nbsp;
+          </div>
         ) : (
-          <img src={Logo} alt="Logo" />
+          <img src="https://mammutea.cloudnativeits.com/files/IBS%20LOGO-01-01e17f07.png" alt="Logo" />
         )}
       </div>
       <div className="header-right">

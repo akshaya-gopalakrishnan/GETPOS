@@ -56,7 +56,7 @@ class POSClosingShift(Document):
 
             for invoice in data:
                 frappe.delete_doc("Sales Invoice", invoice.name, force=1)
-
+    @frappe.whitelist()
     def get_payment_reconciliation_details(self):
         currency = frappe.get_cached_value(
             'Company', self.company,  "default_currency")

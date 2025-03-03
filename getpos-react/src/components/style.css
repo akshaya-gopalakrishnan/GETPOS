@@ -4451,3 +4451,26 @@ th.ant-table-cell.booking-column {
 .login-button:hover {
   background-color: #0056b3; /* Darker shade on hover */
 }
+
+
+.selectstatus {
+  display: flex;
+  height: 40px;
+  /* padding: 10px 20px;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  border-radius: 8px;
+  background: #f24e1e;
+  color: var(--secondary-text-color);
+  font-size: 18px; */
+  border-radius: 100px;
+  height: 25px;
+  white-space: nowrap;
+  padding: 0 20px;
+  border: 1px solid rgba(242, 78, 30, 0.3);
+  background: rgba(242, 78, 30, 0.1);
+  color: #f24e1e;
+  font-weight: 400;
+  border: 0;
+}
