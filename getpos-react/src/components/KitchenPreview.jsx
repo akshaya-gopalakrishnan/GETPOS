@@ -11,7 +11,10 @@ const KitchenOrderModal = ({ visible, onClose, order, onUpdateOrder, onClickCart
   const [returnedItems, setReturnedItems] = useState(null);
   const themeSettings = useThemeSettings();
   const [selectedStatus, setSelectedStatus] = useState("");
-
+  const orderType  = localStorage.getItem("orderType")
+  console.log(orderType,"from localstorage")
+  const orderTypeValue = orderType && JSON.parse(orderType)
+  const typeofOrder = orderTypeValue ?  orderTypeValue?.orderType : ""
   // console.log(order, "checking in the order modal");
 
   useEffect(() => {
@@ -404,6 +407,8 @@ const KitchenOrderModal = ({ visible, onClose, order, onUpdateOrder, onClickCart
             {(order.grand_total - order.loyalty_amount).toFixed(2)}
           </span>
         </p>
+        <strong>Order Type:</strong> {typeofOrder}
+
       </div>
       <center className="return-btns">
         <Button onClick={()=> window.open(`${window.location.origin}/printview?doctype=Sales%20Order&&trigger_print=1&&name=${order.name}&format=Customer%20Print&no_letterhead=0`)}>Customer Print</Button>

@@ -34,6 +34,8 @@ import { useThemeSettings } from "./ThemeSettingContext";
 
 const Cart = ({ fetchData, onReservationClick }) => {
   const [selectedTab, setSelectedTab] = useState("Takeaway");
+  const [orderType, setOrderType] = useState('Dine In');
+
   const [customers, setCustomers] = useState([]);
   const [guestCustomer, setGuestCustomer] = useState();
   const [searchTerm, setSearchTerm] = useState("");
@@ -60,6 +62,11 @@ const Cart = ({ fetchData, onReservationClick }) => {
   const [giftCardDiscount, setGiftCardDiscount] = useState(0);
   const [redeem, setRedeem] = useState(0);
   const [loyaltyProgram, setLoyaltyProgram] = useState("");
+  
+  const handleOrderTypeChange = (e) => {
+    setOrderType(e.target.value);
+    localStorage.setItem("orderType",JSON.stringify({"orderType":e.target.value}))
+  };
 
   const [promoCode, setPromoCode] = useState("");
   const [couponCodes, setCouponCodes] = useState([]);
@@ -85,6 +92,12 @@ const Cart = ({ fetchData, onReservationClick }) => {
   const [isTaxExpanded, setIsTaxExpanded] = useState(false);
   const [selectedType, setSelectedType] = useState("");
 
+  // useEffect(() => {
+  //   if(orderType !== null){
+  //     localStorage.setItem("orderType",JSON.stringify({"orderType": orderType}))
+  //   }
+  // },[orderType])
+
   useEffect(() => {
     const storedPromoCode = localStorage.getItem("promoCode");
     const storedDiscount = localStorage.getItem("couponDiscount");
@@ -105,8 +118,14 @@ const Cart = ({ fetchData, onReservationClick }) => {
     if (storedDiscount) {
       setCouponDiscount(parseFloat(storedDiscount));
     }
-  }, []);
+    // order type
+    console.log(orderType,"orddddddddddddddddddddd")
+     const storedOrderType = localStorage.setItem("orderType",JSON.stringify({"orderType": orderType}))
 
+     if (storedOrderType) {
+       setOrderType(storedOrderType);
+     }
+  }, []);
   const handleQuickCustomer = async () => {
     const customer  = await getQuickCustomer()
     console.log("customer", customer);
@@ -734,6 +753,7 @@ const Cart = ({ fetchData, onReservationClick }) => {
       gift_card_code: giftCard,
       submit: true,
       name: localStorage.getItem("orderId") || null,
+      order_type: orderType
     };
 
     try {
@@ -1315,6 +1335,21 @@ const Cart = ({ fetchData, onReservationClick }) => {
                   Total - ${grandTotal.toFixed(2)}
                 </span> */}
               </div>
+              <div className="row align-items-center">
+              <div className="col">
+                <select
+                  value={orderType}
+                  onChange={handleOrderTypeChange}
+                  className="form-select border-primary bg-secondary text-light"
+                  required
+                >
+                
+                  <option value="Dine In">Dine In</option>
+                  <option value="Delivery">Delivery</option>
+                  <option value="Takeaway">Takeaway</option>
+                </select>
+              </div>
+            </div>
               <div className="cart-head-right">
                 <button
                   onClick={handleEmptyCart}
@@ -1451,7 +1486,7 @@ const Cart = ({ fetchData, onReservationClick }) => {
                     required
                   >
                     <option value="">Select Type</option>
-                    {[{"name": "Dine In", "name": "Take Away"}].map((loc, index) => (
+                    {[{"name": "Dine In"},{"name": "Take Away"}].map((loc, index) => (
                       <option key={index} value={loc.name}>
                         {loc.name}
                       </option>
