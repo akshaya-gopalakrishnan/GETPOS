@@ -1,7 +1,8 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { Checkbox, Modal, message, Button } from "antd";
 import { returnSalesOrder } from "../modules/LandingPage";
 import { useThemeSettings } from "./ThemeSettingContext";
+import PrintFormateOfOrder from "./PrintFormateOfOrder";
 
 const OrderDetailModal = ({ visible, onClose, order, onUpdateOrder }) => {
   const [selectedItems, setSelectedItems] = useState({});
@@ -10,7 +11,23 @@ const OrderDetailModal = ({ visible, onClose, order, onUpdateOrder }) => {
   const [loading, setLoading] = useState(false);
   const [returnedItems, setReturnedItems] = useState(null);
   const themeSettings = useThemeSettings();
+  const printRef = useRef();
+  const transactionData = JSON.parse(localStorage.getItem("cashTransaction") || "{}");
 
+  const handlePrint = () => {
+    if (printRef.current) {
+      // Create updated order data with transaction details
+      const updatedOrderData = {
+        ...order,
+        cashReceived: transactionData?.cashReceived,
+        balanceAmount: transactionData?.balance,
+        mode_of_payment: order.mode_of_payment
+      };
+      printRef.current.handlePrint(updatedOrderData);
+    }
+  };
+
+  console.log(order, "checking in the order modal,order details");
   // console.log(order, "checking in the order modal");
 
   useEffect(() => {
@@ -379,6 +396,20 @@ const OrderDetailModal = ({ visible, onClose, order, onUpdateOrder }) => {
             {(order.grand_total - order.loyalty_amount).toFixed(2)}
           </span>
         </p>
+        <p>
+          <span>Cash Received</span>
+          <span>
+            {themeSettings.currency_symbol || "$"}{" "}
+            {transactionData?.cashReceived}
+          </span>
+        </p>
+        <p>
+          <span>Balance</span>
+          <span>
+            {themeSettings.currency_symbol || "$"}{" "}
+            {transactionData?.balance}
+          </span>
+        </p>
       </div>
       {/* <div className="return-btns">
         {order.mode_of_payment !== "Credit" && (
@@ -399,9 +430,11 @@ const OrderDetailModal = ({ visible, onClose, order, onUpdateOrder }) => {
         )}
       </div> */}
       <center>
+        {/* <Button onClick={handlePrint}>Print</Button> */}
         <Button onClick={()=> window.open(`${window.location.origin}/printview?doctype=Sales%20Order&&trigger_print=1&&name=${order.name}&format=Customer%20Print&no_letterhead=0`)}>Print</Button>
+
       </center>
-        
+      {/* <PrintFormateOfOrder ref={printRef} /> */}
     </Modal>
   );
 };

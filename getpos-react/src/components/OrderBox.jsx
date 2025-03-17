@@ -168,7 +168,6 @@ const OrderBox = ({
           {showDelete && (
             <img src={IconDelete} alt="Delete" onClick={DeleteKitchenOrder} />
           )}
-
             {!kitchenPrint && <Button onClick={()=> window.open(`${window.location.origin}/printview?doctype=Sales%20Order&&trigger_print=1&&name=${order.name}&format=Customer%20Print&no_letterhead=0`)}>Print</Button>}
 
             { kitchenPrint &&<Button onClick={()=> window.open(`${window.location.origin}/printview?doctype=Sales%20Order&&trigger_print=1&&name=${order.name}&format=Kitchen%20Print&no_letterhead=0`)}>Kitchen Print</Button>}

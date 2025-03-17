@@ -20,6 +20,11 @@ const PrintInvoice = ({order}) => {
         terms: ''
     };
 
+    // Get transaction data from localStorage
+    const transactionData = JSON.parse(localStorage.getItem("cashTransaction") || "{}");
+    const cashReceived = order?.cashReceived || transactionData.cashReceived || "0.00";
+    const balanceAmount = order?.balanceAmount || transactionData.balance || "0.00";
+
     const handlePrint = () => {
         const printWindow = window.open('', '_blank');
         printWindow.document.write('<html><head><title>Print Invoice</title></head><body>');
@@ -113,8 +118,21 @@ const PrintInvoice = ({order}) => {
                                 </tr>
                             </>
                         ))}
-                    </tbody>
+                        </tbody>
                     </table>
+                    <hr />
+                    {/* Payment Details Section */}
+                    <div style={{ marginTop: '1rem' }}>
+                        <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '0.5rem' }}>
+                            <span><b>Cash Received:</b></span>
+                            <span className="text-right">{cashReceived}</span>
+                        </div>
+                        <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+                            <span><b>Balance Amount:</b></span>
+                            <span className="text-right">{balanceAmount}</span>
+                        </div>
+                    </div>
+                    <hr />
                     <table className="table table-condensed no-border">
                         <tbody>
                             {/* <tr>
@@ -155,7 +173,7 @@ const PrintInvoice = ({order}) => {
                             )} */}
                             <tr>
                                 <td className="text-left" style={{ width: '75%' }}>
-                                    <p>Waiter Name: <br /> Cashier Name: {doc.owner}</p>
+                                    <p>Waiter Name:<br /> Cashier Name: {doc.owner}</p>
                                 </td>
                                 <td className="text-right"></td>
                             </tr>
@@ -163,7 +181,7 @@ const PrintInvoice = ({order}) => {
                     </table>
                     <hr />
                     <p>{doc.terms || ''}</p>
-                    <p className="text-center"><b>***Thank you, please visit again.***</b></p>
+                    {/* <p className="text-center"><b>***Thank you, please visit again.***</b></p> */}
                 </div>
             </div>
         </div>

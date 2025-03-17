@@ -302,12 +302,16 @@ const Cart = ({ fetchData, onReservationClick }) => {
 
   const handleCashButtonClick = () => {
     localStorage.removeItem("cashTransaction");
+    setSelectedPaymentMethod("Cash"); // Set payment method to Cash
     setIsPopupVisible(true);
   };
 
   const handlePopupClose = () => {
     setIsPopupVisible(false);
     setCashReceived(0);
+    if (!localStorage.getItem("cashTransaction")) {
+      setSelectedPaymentMethod(null); // Reset payment method if transaction was cancelled
+    }
   };
 
   const handlePromoCodeClick = () => {
@@ -734,6 +738,9 @@ const Cart = ({ fetchData, onReservationClick }) => {
       gift_card_code: giftCard,
       submit: true,
       name: localStorage.getItem("orderId") || null,
+      // Add cash transaction details
+      cash_received: selectedPaymentMethod === "Cash" ? JSON.parse(localStorage.getItem("cashTransaction"))?.cashReceived || "0.00" : "0.00",
+      balance_amount: selectedPaymentMethod === "Cash" ? JSON.parse(localStorage.getItem("cashTransaction"))?.balance || "0.00" : "0.00",
     };
 
     try {

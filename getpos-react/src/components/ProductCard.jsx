@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import NoImage from "../assets/images/no-img.png";
 import useScanDetection from "use-scan-detection";
 import { getItemByScan } from "../modules/LandingPage";
-import { Modal } from "antd";
+import { Modal, Row } from "antd";
 import { useThemeSettings } from "./ThemeSettingContext";
 
 const ProductCard = ({ product, onAddToCart }) => {
@@ -24,11 +24,15 @@ const ProductCard = ({ product, onAddToCart }) => {
         />
       </div>
       <div className="product-details">
-        <span className="product-type mb-4">{product?.item_type}</span>
+        <span className="product-type mt-1 mb-2">{product?.item_type}</span>
+        <div style={{display: "flex",flexDirection: "row",justifyContent: "space-between"}}>
         <h4 className="product-name">{product?.name}</h4>
-        <span className="product-qty">
+        <span>{product?.stock?.map((qty) => qty?.stock_qty)}</span>
+        </div>
+        
+        {/* <span className="product-qty">
           {product?.stock?.map((qty) => qty?.stock_qty)}
-        </span>
+        </span> */}
         <div className="price-addbtn">
           <span className="product-price">
             {themeSettings?.currency_symbol || "AED"} {" "}
