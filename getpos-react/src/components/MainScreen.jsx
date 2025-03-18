@@ -17,7 +17,7 @@ import {useNavigate} from "react-router-dom"
 const MainScreen = () => {
   const [selectedCategory, setSelectedCategory] = useState(null);
   const [popupProduct, setPopupProduct] = useState(null);
-  const [categories, setCategories] = useState([]);
+  const [categories, setCategories] = useState([]); 
   const [products, setProducts] = useState([]);
   const [searchResults, setSearchResults] = useState([]);
   const [loading, setLoading] = useState(true);

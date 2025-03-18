@@ -15,6 +15,7 @@
 
 body {
   background: #f3f5fa;
+
   margin: 0;
   padding: 0;
   overflow: hidden;
@@ -1247,6 +1248,33 @@ button.ant-modal-close {
 
 .product-card {
   border-radius: 4px;
+  padding: 5px;  /* Reduced padding */
+  text-align: center;
+  background-color: var(--secondary-text-color);
+  transition: box-shadow 0.2s ease;
+  width: 18%; /* Decreased width */
+  height: 170px; /* Decreased height */
+}
+
+.product-card:hover {
+  border-radius: 4px;
+  border: 2px solid var(--primary-color);
+  box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.2);
+}
+
+.product-image {
+  width: 100%;
+  min-height: 80px; /* Reduced height */
+  background-color: #fdfff4;
+}
+
+.product-image img {
+  width: auto;
+  height: 80px; /* Reduced image size */
+}
+
+/* .product-card {
+  border-radius: 4px;
   padding: 10px;
   text-align: center;
   background-color: var(--secondary-text-color);
@@ -1271,7 +1299,7 @@ button.ant-modal-close {
 .product-image img {
   width: auto;
   height: 100px;
-}
+} */
 
 .product-details {
   text-align: left;
@@ -3245,11 +3273,11 @@ input[type="number"]::-webkit-inner-spin-button {
   }
 
   .sidebar {
-    width: 45%;
+    width: 25%;
   }
 
   .product-card {
-    width: 45%;
+    width: 25%;
   }
 
   .profile-sidebar {
