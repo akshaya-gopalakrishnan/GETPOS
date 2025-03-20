@@ -110,7 +110,7 @@ export const getQuickCustomer = async () => {
   try {
     const response = await axiosInstance.get(APIs.getDefaultCustomer + "?pos=" + JSON.parse(localStorage.getItem("openShiftData"))["selectedProfile"]);
     if (response.data && response.data.message.success_key === 1) {
-      // console.log("Customer Data:", response.data.message.customer);
+      console.log("Customer Data:", response.data.message.customer);
       return response.data.message.customer;
     } else {
       throw new Error("Invalid API response");

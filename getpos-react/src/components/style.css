@@ -1318,10 +1318,14 @@ button.ant-modal-close {
 
 h4.product-name {
   color: #576474;
-  font-size: 16px;
+  font-size: 12px;
   font-weight: 500;
   line-height: 18px;
   height: 24px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  transition: font-size 0.3s ease-in-out;
 }
 
 .product-qty {

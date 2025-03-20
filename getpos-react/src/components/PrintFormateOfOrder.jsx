@@ -5,6 +5,8 @@ const PrintFormateOfOrder = forwardRef(({ doc }, ref) => {
     handlePrint
   }));
 
+  console.log(ref,"refrefref")
+
   const handlePrint = (doc) => {
     // Get the latest transaction data from localStorage
     const transactionData = JSON.parse(localStorage.getItem("cashTransaction") || "{}");

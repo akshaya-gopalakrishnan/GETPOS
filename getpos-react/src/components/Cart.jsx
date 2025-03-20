@@ -700,6 +700,7 @@ const Cart = ({ fetchData, onReservationClick }) => {
   let grandTotal = totalWithTax - loyaltyAmount - discountAmount;
   grandTotal = Math.max(grandTotal - couponDiscount, 0);
   const placeOrder = async (customer) => {
+    console.log("place orderrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr")
     if (grandTotal <= 0) {
       Modal.error({
         title: "Please add more items.",
@@ -757,12 +758,12 @@ const Cart = ({ fetchData, onReservationClick }) => {
       gift_card_code: giftCard,
       submit: true,
       name: localStorage.getItem("orderId") || null,
-      order_type: orderType,
+      // order_type: orderType,
       // Add cash transaction details
-      cash_received: selectedPaymentMethod === "Cash" ? JSON.parse(localStorage.getItem("cashTransaction"))?.cashReceived || "0.00" : "0.00",
-      balance_amount: selectedPaymentMethod === "Cash" ? JSON.parse(localStorage.getItem("cashTransaction"))?.balance || "0.00" : "0.00",
+      // cash_received: selectedPaymentMethod === "Cash" ? JSON.parse(localStorage.getItem("cashTransaction"))?.cashReceived || "0.00" : "0.00",
+      // balance_amount: selectedPaymentMethod === "Cash" ? JSON.parse(localStorage.getItem("cashTransaction"))?.balance || "0.00" : "0.00",
     };
-
+// console.log(orderDetails,"ooooooooooooooooooooooooooooooooooooooooooooooooooooo")
     try {
       const res = await createSalesOrder(orderDetails);
       if (res && res.message && res.message.success_key === 1) {
@@ -828,6 +829,7 @@ const Cart = ({ fetchData, onReservationClick }) => {
   };
 
   const handlePlaceOrder = async () => {
+    console.log(selectedCustomer,"ssssssssssssssssssssssssssssssssssssssssssssss")
     if (!selectedCustomer) {
       Modal.error({
         title: "Attention!",
