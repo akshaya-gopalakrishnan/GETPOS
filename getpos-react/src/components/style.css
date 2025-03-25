@@ -370,6 +370,11 @@ button:hover {
   gap: 16px;
   padding: 20px;
   flex-direction: column;
+
+  
+  /* overflow-y: auto;
+  scroll-behavior: auto; */
+  /* max-height: 700px; */
 }
 
 .product-catalog h2 {
@@ -1244,8 +1249,35 @@ button.ant-modal-close {
   flex-wrap: wrap;
   gap: 20px;
   justify-content: flex-start;
+  scroll-behavior: smooth;
+  max-width: 100%; 
+  overflow-y: scroll;
+  scroll-behavior: smooth;
+  max-height: calc(100vh - 200px);
+
+}
+.product-catalog {
+  width: 100%;
+  overflow-x: hidden;
+
+  
+}
+/* .product-list::-webkit-scrollbar {
+  height: 8px;
 }
 
+.product-list::-webkit-scrollbar-thumb {
+  background: #888;
+  border-radius: 4px;
+} */
+.product-list::-webkit-scrollbar {
+  height: 8px;
+}
+
+.product-list::-webkit-scrollbar-thumb {
+  background: #888;
+  border-radius: 4px;
+}
 .product-card {
   border-radius: 4px;
   padding: 5px;  /* Reduced padding */
@@ -2936,7 +2968,7 @@ input[type="number"]::-webkit-inner-spin-button {
   .product-catalog {
     overflow-y: auto;
     max-height: 624px;
-    padding-bottom: 130px;
+    /* padding-bottom: 130px; */
     flex-wrap: nowrap;
   }
   .product-card {
@@ -3147,7 +3179,7 @@ input[type="number"]::-webkit-inner-spin-button {
   .product-catalog {
     overflow-y: auto;
     max-height: 624px;
-    padding-bottom: 220px;
+    /* padding-bottom: 220px; */
     flex-wrap: nowrap;
   }
 }
@@ -3278,6 +3310,8 @@ input[type="number"]::-webkit-inner-spin-button {
 
   .sidebar {
     width: 25%;
+    /* max-height: 600px;
+    overflow-y: auto;  for scrollbar */
   }
 
   .product-card {
