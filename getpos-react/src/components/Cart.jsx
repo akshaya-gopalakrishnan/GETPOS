@@ -799,7 +799,7 @@ const Cart = ({ fetchData, onReservationClick }) => {
         localStorage.removeItem("GiftCardDiscount");
         setGiftCardDiscount("");
         setGiftCard("");
-        localStorage.removeItem("cashTransaction");
+        // localStorage.removeItem("cashTransaction");
         setDiscountAmount(0);
         setIsGiftCardValid(false);
         setIsPromoCodeValid(false);
