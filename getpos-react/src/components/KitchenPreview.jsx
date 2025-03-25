@@ -4,7 +4,6 @@ import { returnSalesOrder, updateOrderStatus } from "../modules/LandingPage";
 import { useThemeSettings } from "./ThemeSettingContext";
 
 const KitchenOrderModal = ({ visible, onClose, order, onUpdateOrder, onClickCart }) => {
-  console.log(onClickCart,"onClickCartonClickCart")
   const [selectedItems, setSelectedItems] = useState({});
   const [itemQuantities, setItemQuantities] = useState({});
   const [disabledInputs, setDisabledInputs] = useState({});
@@ -17,13 +16,6 @@ const KitchenOrderModal = ({ visible, onClose, order, onUpdateOrder, onClickCart
   const orderTypeValue = orderType && JSON.parse(orderType)
   const typeofOrder = orderTypeValue ?  orderTypeValue?.orderType : ""
   // console.log(order, "checking in the order modal");
-
-
-  const handleCrt = () => {
-    console.log("hhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh")
-    onClickCart(order)
-  }
-
 
   useEffect(() => {
     if (order) {
@@ -420,8 +412,7 @@ const KitchenOrderModal = ({ visible, onClose, order, onUpdateOrder, onClickCart
       </div>
       <center className="return-btns">
         <Button onClick={()=> window.open(`${window.location.origin}/printview?doctype=Sales%20Order&&trigger_print=1&&name=${order.name}&format=Customer%20Print&no_letterhead=0`)}>Customer Print</Button>
-        {/* <Button onClick={handleCrt}>Move to Cart</Button> */}
-        <button onClick={handleCrt}>Move to Cart</button>
+        <Button onClick={()=>onClickCart()}>Move to Cart</Button>
       </center>
         
     </Modal>

@@ -23,7 +23,6 @@ const OrderDetailModal = ({ visible, onClose, order, onUpdateOrder }) => {
         balanceAmount: transactionData?.balance,
         mode_of_payment: order.mode_of_payment
       };
-
       printRef.current.handlePrint(updatedOrderData);
     }
   };
