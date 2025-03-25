@@ -24,7 +24,23 @@ const CashPaymentPopup = ({ total, isVisible, onClose, handlePlaceOrder,orderDat
     setCashReceived((prev) => prev + value);
   };
 
+  // useEffect(() => {
+  //   console.log(cashReceived,"ddddddddddddddd")
+  //   const received = cashReceived || total.toFixed(2); // Use total if cashReceived is empty
+  //   const balance = received - total.toFixed(2);
+  //       localStorage.setItem(
+  //     "cashTransaction",
+  //     JSON.stringify({
+  //       total: total.toFixed(2),
+  //       cashReceived: parseFloat(received).toFixed(2),
+  //       balance: balance.toFixed(2),
+  //     })
+  //   );
+  // },[cashReceived])
+
   const handlePopupOK = () => {
+    console.log(localStorage.getItem("customers"),"customerrr")
+
     const received = cashReceived || total.toFixed(2); // Use total if cashReceived is empty
     const balance = received - total.toFixed(2);
     console.log(received,balance ,"ddddddddddddddddddddddddddd")
@@ -37,6 +53,7 @@ const CashPaymentPopup = ({ total, isVisible, onClose, handlePlaceOrder,orderDat
         balance: balance.toFixed(2),
       })
     );
+
     // Modal.success({
     //   title: "Transaction Recorded",
     //   content: (
@@ -56,7 +73,8 @@ const CashPaymentPopup = ({ total, isVisible, onClose, handlePlaceOrder,orderDat
     //     </>
     //   ),
     // });
-    handlePlaceOrder();
+
+    handlePlaceOrder({cashReceived,balance});
     localStorage.removeItem("orderId")
     onClose();
   };

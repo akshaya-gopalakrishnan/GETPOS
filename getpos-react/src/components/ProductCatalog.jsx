@@ -16,7 +16,7 @@ const ProductCatalog = ({ categoryName, products, onAddToCart }) => {
   //   const handleResize = () => {
   //     const width = window.innerWidth;
   //     if (width >= 1720) {
-  //       setProductsPerPage(10);
+  //       setProductsPerPage(15);
   //     } else if (width >= 1430) {
   //       setProductsPerPage(8);
   //     } else if (width >= 1230) {
@@ -24,7 +24,10 @@ const ProductCatalog = ({ categoryName, products, onAddToCart }) => {
   //       }
   //     else if (width >= 1150) {
   //       setProductsPerPage(6);
-  //     } else {
+  //     }else if (width >= 1024) {
+  //       setProductsPerPage(9); // Set to 9 for 1024px resolution
+  //     }
+  //      else {
   //       setProductsPerPage(4);
   //     }
   //   };

@@ -35,7 +35,6 @@ import { useThemeSettings } from "./ThemeSettingContext";
 const Cart = ({ fetchData, onReservationClick }) => {
   const [selectedTab, setSelectedTab] = useState("Takeaway");
   const [orderType, setOrderType] = useState('Dine In');
-
   const [customers, setCustomers] = useState([]);
   const [guestCustomer, setGuestCustomer] = useState();
   const [searchTerm, setSearchTerm] = useState("");
@@ -119,7 +118,7 @@ const Cart = ({ fetchData, onReservationClick }) => {
       setCouponDiscount(parseFloat(storedDiscount));
     }
     // order type
-    console.log(orderType,"orddddddddddddddddddddd")
+    console.log(orderType,"ordertype")
      const storedOrderType = localStorage.setItem("orderType",JSON.stringify({"orderType": orderType}))
 
      if (storedOrderType) {
@@ -699,8 +698,11 @@ const Cart = ({ fetchData, onReservationClick }) => {
   // const tax = subtotal * taxRate;
   let grandTotal = totalWithTax - loyaltyAmount - discountAmount;
   grandTotal = Math.max(grandTotal - couponDiscount, 0);
+
+
+
   const placeOrder = async (customer) => {
-    console.log("place orderrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr")
+    console.log("place order")
     if (grandTotal <= 0) {
       Modal.error({
         title: "Please add more items.",
@@ -763,9 +765,10 @@ const Cart = ({ fetchData, onReservationClick }) => {
       // cash_received: selectedPaymentMethod === "Cash" ? JSON.parse(localStorage.getItem("cashTransaction"))?.cashReceived || "0.00" : "0.00",
       // balance_amount: selectedPaymentMethod === "Cash" ? JSON.parse(localStorage.getItem("cashTransaction"))?.balance || "0.00" : "0.00",
     };
-// console.log(orderDetails,"ooooooooooooooooooooooooooooooooooooooooooooooooooooo")
+// console.log(orderDetails,"orderdetails")
     try {
       const res = await createSalesOrder(orderDetails);
+      console.log("in try",createSalesOrder(orderDetails))
       if (res && res.message && res.message.success_key === 1) {
         Modal.success({
           title: "Congratulations!",
@@ -799,7 +802,7 @@ const Cart = ({ fetchData, onReservationClick }) => {
         localStorage.removeItem("GiftCardDiscount");
         setGiftCardDiscount("");
         setGiftCard("");
-        localStorage.removeItem("cashTransaction");
+        // localStorage.removeItem("cashTransaction");
         setDiscountAmount(0);
         setIsGiftCardValid(false);
         setIsPromoCodeValid(false);
@@ -828,8 +831,15 @@ const Cart = ({ fetchData, onReservationClick }) => {
     setSelectedPaymentMethod(method);
   };
 
-  const handlePlaceOrder = async () => {
-    console.log(selectedCustomer,"ssssssssssssssssssssssssssssssssssssssssssssss")
+  const handleAddtoLocalStorage =  async (localItem) => {
+    await localStorage.setItem("cashTransaction",localItem)
+  }
+
+  const handlePlaceOrder = async ({cashReceived,balance}) => {
+    console.log(cashReceived,balance,grandTotal,"cashReceived,balance")
+    console.log(localStorage.getItem("customers"),"customerrr")
+
+    console.log(selectedCustomer,"selectedcustomer")
     if (!selectedCustomer) {
       Modal.error({
         title: "Attention!",
@@ -847,7 +857,22 @@ const Cart = ({ fetchData, onReservationClick }) => {
       return;
     }
 
+    // const localItem =  JSON.stringify({
+    //   total: grandTotal.toFixed(2),
+    //   cashReceived: parseFloat(received).toFixed(2),
+    //   balance: balance.toFixed(2),
+    // })
+    // await handleAddtoLocalStorage(localItem)
     await placeOrder(selectedCustomer);
+
+    // localStorage.setItem(
+    //   "cashTransaction",
+    //   JSON.stringify({
+    //     total: grandTotal.toFixed(2),
+    //     cashReceived: parseFloat(received).toFixed(2),
+    //     balance: balance.toFixed(2),
+    //   })
+    // );
   };
   const handlePlaceKitchenOrder = async () => {
     if (!selectedCustomer) {
@@ -1403,7 +1428,7 @@ const Cart = ({ fetchData, onReservationClick }) => {
                 
                   <div className="cart-footer">
                     <div className="cart-summary">
-                     
+                     {console.log(cartItems,"cartItems cartItems cartItems")}
                       <div className="tax-header" onClick={toggleTaxExpand}>
                         <span>{isTaxExpanded ? "▼" : "►"} Total Tax</span>
                         <span>

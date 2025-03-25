@@ -24,6 +24,7 @@ const OrderBox = ({
   print=false,
   kitchenPrint=false,
 }) => {
+  console.log(order,"dddddddddddddddddddddddddddddddddddddddddddddddddddd")
   const getReturnStatusText = (status) => {
     if (status === "Fully") {
       return "Returned";

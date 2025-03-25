@@ -50,7 +50,7 @@ const OrderPage = ({ hubManagerEmail }) => {
       console.log("inside the fn");
       const { email } = JSON.parse(localStorage.getItem("user"));
       const orderList = await fetchKitchenOrders(email, PageCount);
-  
+
       // Check if data has changed before updating state
       if (JSON.stringify(orderList.order_list) !== JSON.stringify(kitchenOrders)) {
         setKitchenOrders(orderList.order_list);
@@ -138,6 +138,7 @@ const OrderPage = ({ hubManagerEmail }) => {
   };
 
   const handleKitchenOrderClick = (order) => {
+    console.log(order,"kkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkk")
     setSelectedOrder(order);
     setIsKitchenModalVisible(true);
   };
@@ -187,6 +188,7 @@ const OrderPage = ({ hubManagerEmail }) => {
     try {
       const data = await ProductAPICall();
       const found = SearchItem(data, order);
+      console.log(found,"foundddddddddddddd")
       if (isEmpty(found)) {
         // Remove the order from parked orders
         const updatedParkedOrders = fetchParkedOrders().filter(
@@ -222,17 +224,35 @@ const OrderPage = ({ hubManagerEmail }) => {
   };
 
   const setKitchenToCart = (order) =>{
+    // console.log(order,"orderrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr")
+    // console.log(selectedOrder,"sssssssssssssssssssssssss")
     order.items.forEach((i)=>{
       i.id = i.item_code;
       i.name = i.item_name
       i.quantity = i.qty
       i.product_price = i.rate
+      // console.log(i,"iiiiiiiiiiiiiiiiiiiiiiiiiiiiii")
       // i.price 
       if(!i.tax){
-        i.tax = []
+        i.tax = [
+          // {
+          // "custom_tax_percentage"
+          // : 
+          // "5.00%",
+          // "item_tax_template"
+          // : 
+          // "UAE VAT 5% - ID",
+          // "tax_type"
+          // : 
+          // "VAT 5% - ID",
+          // "valid_from"
+          // : 
+          // "2025-03-21"}
+        ]
       }
     })
     const newCartItems = order.items || [];
+    console.log(newCartItems,"locallllllll")
     const customer = JSON.parse(localStorage.getItem("customers")).find(customer => customer.name === order.customer)
     localStorage.setItem("cartItems", JSON.stringify(newCartItems));
     localStorage.setItem(
@@ -272,6 +292,7 @@ const OrderPage = ({ hubManagerEmail }) => {
     );
   });
   
+
   // Combine filtered orders from both arrays using .concat() or spread operator
   if (kitchenOrders?.length > 0 ) {
     filteredOrders = filteredOrders.concat(
@@ -285,6 +306,8 @@ const OrderPage = ({ hubManagerEmail }) => {
       })
     );
   }
+
+  console.log(filteredOrders,"fffffffffffffffffffffffffffffffffffffffffffffff")
   
 
   const categorizedOrders = {
@@ -379,13 +402,14 @@ const OrderPage = ({ hubManagerEmail }) => {
           }
             
           </TabPane>
-
           <TabPane tab={<span className="tab-kitchen" >Kitchen</span>} key="4">
+          {/* {categorizedOrders,"categorizedOrders"} */}
+{console.log(categorizedOrders,"cccccccccccccccccccccccccccccccccccccccccc")}
             <div className="tab-inner-cont content-kitchen" >
               {categorizedOrders?.kitchen.length === 0 ? (
                 <div className="no-data">No Kitchen order</div>
               ) : (
-                
+
                 categorizedOrders.kitchen.map((order, index) => (
                 <>
                   <OrderBox
@@ -486,7 +510,7 @@ const OrderPage = ({ hubManagerEmail }) => {
       onClose={handleKitchenModalClose}
       order={selectedOrder}
       onUpdateOrder={updateOrderStatus}
-      onClickCart={() => setKitchenToCart(selectedOrder)}
+      onClickCart={setKitchenToCart}
       />
     </Layout>
   );
