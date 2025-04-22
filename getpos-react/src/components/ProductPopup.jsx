@@ -92,7 +92,8 @@ const ProductPopup = ({ product, onClose, selectedCustomer }) => {
         }
       });
     });
-    return totalPrice.toFixed(2);
+    // return totalPrice.toFixed(2);
+    return (totalPrice * 1.05).toFixed(2);
   };
 
   return (
@@ -114,7 +115,8 @@ const ProductPopup = ({ product, onClose, selectedCustomer }) => {
                 <h2>{product.name}</h2>
                 <span className="static-item-price">
                   {themeSettings.currency_symbol || "AED"}
-                  {product.product_price?.toFixed(2)}
+                  {/* {product.product_price?.toFixed(2)} */}
+                  {(product.product_price * 1.05).toFixed(2)}
                 </span>
               </div>
 
@@ -171,7 +173,8 @@ const ProductPopup = ({ product, onClose, selectedCustomer }) => {
               <span>
                 {themeSettings.currency_symbol || "AED"}
                 {calculateTotalPrice()}
-              </span>
+                
+             </span>
             </div>
 
             <button onClick={handleAddItem}>Add to Cart</button>

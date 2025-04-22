@@ -19,11 +19,12 @@ const MainScreen = () => {
   const [popupProduct, setPopupProduct] = useState(null);
   const [categories, setCategories] = useState([]); 
   const [products, setProducts] = useState([]);
+  console.log("products",products)
   const [searchResults, setSearchResults] = useState([]);
   const [loading, setLoading] = useState(true);
   const [isCartVisible, setIsCartVisible] = useState(false);
   const [isSidebarVisible, setIsSidebarVisible] = useState(false);
-   
+   console.log(isCartVisible,"isCartVisible")
 
   const [searchQuery, setSearchQuery] = useState("");
   const [barcode, setBarcode] = useState("");
@@ -223,14 +224,14 @@ const MainScreen = () => {
             />
           )}
           <div className="left-cont">
-            <Sidebar
+           {isCartVisible ? <div></div> : <Sidebar
               categories={categories}
               onSelectCategory={setSelectedCategory}
               selectedCategory={highlightedCategory}
               isVisible={isSidebarVisible}
               onClose={() => setIsSidebarVisible(false)}
               isSmallScreen={isSmallScreen}
-            />
+            />}
             <ProductCatalog
               categoryName={highlightedCategory}
               products={displayedProducts}
@@ -263,11 +264,6 @@ const MainScreen = () => {
             onClose={() => setPopupProduct(null)}
           />
         )}
-     
-        
-      
-          
-      
       </div>
     </>
   );

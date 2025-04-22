@@ -20,6 +20,8 @@ from datetime import datetime, timedelta, time
 from erpnext.selling.doctype.customer.customer import get_customer_outstanding
 from getpos.controllers import frappe_response,handle_exception
 from frappe.core.doctype.user.user import check_password
+# from frappe.model.document import Document
+# from frappe.utils import now_datetime
 
 @frappe.whitelist( allow_guest=True,methods=["GET"] )
 def get_user_details(usr,pwd):
@@ -2293,3 +2295,64 @@ def get_kitchen_order_list(hub_manager = None, page_no = 1, from_date = None, to
             res['number_of_orders'] = number_of_orders
             res['items_perpage']=sales_history_count
             return res
+
+# @frappe.whitelist()
+# def create_table_booking(customer, floor, table, seats_booked, booking_time):
+#     seats_booked = int(seats_booked)
+#     table_doc = frappe.get_doc("Restaurant Table", table)
+
+#     if table_doc.available_seats < seats_booked:
+#         frappe.throw("Not enough seats available at this table.")
+
+#     # Create booking
+#     booking = frappe.get_doc({
+#         "doctype": "Table Booking",
+#         "customer": customer,
+#         "floor": floor,
+#         "table": table,
+#         "seats_booked": seats_booked,
+#         "booking_time": booking_time,
+#         "status": "Confirmed"
+#     })
+#     booking.insert(ignore_permissions=True)
+
+#     # Update available seats
+#     table_doc.available_seats -= seats_booked
+#     table_doc.save()
+
+#     return {"status": "success", "booking_id": booking.name}
+# @frappe.whitelist(allow_guest=True)
+# def get_floors():
+#     return frappe.get_all("Restaurant Floor", fields=["name"])
+
+# @frappe.whitelist(allow_guest=True)
+# def get_tables(floor_name):
+#     return frappe.get_all("Restaurant Table", filters={"floor": floor_name}, fields=["name", "status"])
+@frappe.whitelist()
+def get_floors():
+    """Fetch all restaurant floors"""
+    return frappe.get_all("Restaurant Floor", fields=["name"])
+
+@frappe.whitelist()
+def get_tables(floor):
+    """Fetch tables based on selected floor"""
+    return frappe.get_all("Restaurant Table", filters={"floor": floor}, fields=["name", "table_number", "available_seats"])
+
+def create_table_booking(floor, table, seats_booked, booking_time):
+    try:
+        customer = frappe.session.user  # Get logged-in user from session
+
+        doc = frappe.get_doc({
+            "doctype": "Table Booking",
+            "customer": customer,
+            "floor": floor,
+            "table": table,
+            "seats_booked": seats_booked,
+            "booking_time": booking_time
+        })
+        doc.insert()
+        frappe.db.commit()
+        return "Booking successful"
+    except Exception as e:
+        frappe.log_error(f"Booking Error: {str(e)}", "Table Booking")
+        frappe.throw("Failed to create booking")

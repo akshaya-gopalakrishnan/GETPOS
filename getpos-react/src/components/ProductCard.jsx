@@ -9,6 +9,10 @@ const ProductCard = ({ product, onAddToCart }) => {
   const formatPrice = (price) => {
     return price && price.length > 0 ? price.toFixed(2) : " - NA";
   };
+  // const newprice = !product?.attributes?.length && product?.product_price || 0
+  // console.log(newprice,"newprice");
+  const basePrice = (!product?.attributes?.length && product?.product_price) || 0;
+  const newprice = parseFloat((basePrice * 1.05).toFixed(2));
 
   const [scannedValue, setScannedValue] = useState("");
   const themeSettings = useThemeSettings();
@@ -36,7 +40,8 @@ const ProductCard = ({ product, onAddToCart }) => {
         <div className="price-addbtn">
           <span className="product-price">
             {themeSettings?.currency_symbol || "AED"} {" "}
-            {!product?.attributes?.length && product?.product_price || " "}
+            {newprice}
+            {/* {!product?.attributes?.length && product?.product_price || " "} */}
             {/* {formatPrice(product?.product_price) || " - NA"} */}
           </span>
           <button className="add-button" onClick={() => onAddToCart(product)}>

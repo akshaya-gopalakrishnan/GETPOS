@@ -1,5 +1,6 @@
 from . import __version__ as app_version
 
+
 app_name = "getpos"
 app_title = "GETPOS"
 app_publisher = "Nestorbird"
@@ -143,6 +144,10 @@ override_doctype_class = {
 	"Sales Invoice": "getpos.overrides.sales_invoice.Custom"
 }
 
+no_csrf = [
+	"getpos.getpos.api.create_sales_order_kiosk"
+]
+
 
 # Document Events
 # ---------------
@@ -165,7 +170,7 @@ doc_events = {
 	},
     "Item" : {
 		"validate" : "getpos.getpos.hooks.item.validate_item"
-	},
+	}
 	
 }
 
@@ -248,6 +253,7 @@ user_data_fields = [
 	{
 		"doctype": "{doctype_4}"
 	}
+	
 ]
 after_migrate = "getpos.getpos.after_migrate.main"
 # Authentication and authorization

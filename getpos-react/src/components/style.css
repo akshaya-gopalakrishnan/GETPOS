@@ -401,13 +401,14 @@ button:hover {
   flex-direction: column;
   justify-content: space-between;
   height: 100vh;
+
 }
 
 .empty-cart {
   display: flex;
   align-items: center;
   justify-content: center;
-  height: 400px;
+  /* height: 400px; */
 }
 
 .main-screen {

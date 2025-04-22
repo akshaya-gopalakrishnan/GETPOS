@@ -18,6 +18,7 @@ const Footer = () => {
               className="footer-nav-item"
               activeClassName="active"
               exact
+              onClick={() => window.reload()}
             >
               <img src={Home} alt="Home" />
               <span className="footer-label">Home</span>
